@@ -1,6 +1,7 @@
 import streamlit as st
 import networkx as nx
 import matplotlib.pyplot as plt
+warnings.filterwarnings("ignore", category=UserWarning)
 
 def display_hierarchy_management (data):
 
