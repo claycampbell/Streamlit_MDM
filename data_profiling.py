@@ -5,6 +5,8 @@ from ydata_profiling import ProfileReport
 import streamlit.components.v1 as components
 import warnings
 import matplotlib.cbook
+import matplotlib
+matplotlib.use('TkAgg')
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
