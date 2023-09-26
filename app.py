@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -9,7 +10,10 @@ import data_versioning
 import golden_record
 import deduplication_tools
 import governance_compliance_reporting
+import workflow_visualization
 # Load the generated datasets
+
+
 @st.cache_data  # 👈 Use the caching decorator
 def load_data():
     datasets = {
@@ -82,7 +86,7 @@ feature_icons = {
 FEATURE_GROUPS = {
     "Data Management": ["KPI Overview", "Data Profiling", "Data Lineage", "Data Quality"],
     "Tools & Control": ["Hierarchy Management", "Data Versioning", "Deduplication Tools", "Golden Record"],
-    "Reporting": ["Governance and Compliance"],
+    "Reporting": ["Governance and Compliance","Workflow Visualization"],
 
     # Add more groups as needed...
 }
@@ -190,6 +194,8 @@ def main():
         deduplication_tools.deduplication_tools()
     elif st.session_state.selected_feature == "Governance and Compliance":
         governance_compliance_reporting.governance_compliance_reporting()
+    elif st.session_state.selected_feature == "Workflow Visualization":
+        workflow_visualization.workflow_visualization()
     else:
         display_kpis()
 
