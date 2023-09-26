@@ -160,7 +160,7 @@ def display_kpis():
     st.metric(label="Changes Logged", value=changes_made)
 
 def main():
-    st.title("MDM Control Center")
+    st.title("📊 MDM Control Center")
     
     data = load_data()
 
