@@ -1,0 +1,11 @@
+Date,Alert_Type,Message
+2022-01-01,Critical,Alert 77
+2022-01-02,Warning,Alert 56
+2022-01-03,Critical,Alert 32
+2022-01-04,Warning,Alert 49
+2022-01-05,Critical,Alert 89
+2022-01-06,Info,Alert 48
+2022-01-07,Info,Alert 6
+2022-01-08,Warning,Alert 96
+2022-01-09,Info,Alert 46
+2022-01-10,Info,Alert 86

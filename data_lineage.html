@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "blue", "id": "Bloomberg", "label": "Bloomberg", "shape": "dot", "size": 10, "title": "Details about Bloomberg", "type": "source"}, {"color": "green", "id": "Data Cleansing", "label": "Data Cleansing", "shape": "dot", "size": 10, "title": "Details about Data Cleansing", "type": "process"}, {"color": "blue", "id": "Reuters", "label": "Reuters", "shape": "dot", "size": 10, "title": "Details about Reuters", "type": "source"}, {"color": "blue", "id": "Bank Transactions", "label": "Bank Transactions", "shape": "dot", "size": 10, "title": "Details about Bank Transactions", "type": "source"}, {"color": "green", "id": "Currency Conversion", "label": "Currency Conversion", "shape": "dot", "size": 10, "title": "Details about Currency Conversion", "type": "process"}, {"color": "blue", "id": "ERP System", "label": "ERP System", "shape": "dot", "size": 10, "title": "Details about ERP System", "type": "source"}, {"color": "green", "id": "Aggregation", "label": "Aggregation", "shape": "dot", "size": 10, "title": "Details about Aggregation", "type": "process"}, {"color": "blue", "id": "CRM System", "label": "CRM System", "shape": "dot", "size": 10, "title": "Details about CRM System", "type": "source"}, {"color": "green", "id": "Enrichment", "label": "Enrichment", "shape": "dot", "size": 10, "title": "Details about Enrichment", "type": "process"}, {"color": "blue", "id": "Stock Exchange Feed", "label": "Stock Exchange Feed", "shape": "dot", "size": 10, "title": "Details about Stock Exchange Feed", "type": "source"}, {"color": "red", "id": "Real-time Stock Dashboards", "label": "Real-time Stock Dashboards", "shape": "dot", "size": 10, "title": "Details about Real-time Stock Dashboards", "type": "dataset"}, {"color": "blue", "id": "Excel Reports", "label": "Excel Reports", "shape": "dot", "size": 10, "title": "Details about Excel Reports", "type": "source"}, {"color": "red", "id": "Quarterly Financial Reports", "label": "Quarterly Financial Reports", "shape": "dot", "size": 10, "title": "Details about Quarterly Financial Reports", "type": "dataset"}, {"color": "red", "id": "Annual Financial Statements", "label": "Annual Financial Statements", "shape": "dot", "size": 10, "title": "Details about Annual Financial Statements", "type": "dataset"}, {"color": "red", "id": "Customer Financial Profiles", "label": "Customer Financial Profiles", "shape": "dot", "size": 10, "title": "Details about Customer Financial Profiles", "type": "dataset"}, {"color": "red", "id": "Fraud Alert System", "label": "Fraud Alert System", "shape": "dot", "size": 10, "title": "Details about Fraud Alert System", "type": "dataset"}, {"color": "green", "id": "Anomaly Detection", "label": "Anomaly Detection", "shape": "dot", "size": 10, "title": "Details about Anomaly Detection", "type": "process"}]);
+                  edges = new vis.DataSet([{"from": "Bloomberg", "to": "Data Cleansing", "width": 1}, {"from": "Reuters", "to": "Data Cleansing", "width": 1}, {"from": "Bank Transactions", "to": "Currency Conversion", "width": 1}, {"from": "ERP System", "to": "Aggregation", "width": 1}, {"from": "CRM System", "to": "Enrichment", "width": 1}, {"from": "Stock Exchange Feed", "to": "Real-time Stock Dashboards", "width": 1}, {"from": "Excel Reports", "to": "Quarterly Financial Reports", "width": 1}, {"from": "Data Cleansing", "to": "Quarterly Financial Reports", "width": 1}, {"from": "Currency Conversion", "to": "Annual Financial Statements", "width": 1}, {"from": "Aggregation", "to": "Customer Financial Profiles", "width": 1}, {"from": "Enrichment", "to": "Fraud Alert System", "width": 1}, {"from": "Anomaly Detection", "to": "Fraud Alert System", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
