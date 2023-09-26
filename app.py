@@ -11,6 +11,7 @@ import golden_record
 import deduplication_tools
 import governance_compliance_reporting
 import workflow_visualization
+import interactive_data_exploration
 # Load the generated datasets
 
 
@@ -85,7 +86,7 @@ feature_icons = {
 # Grouped features for better organization
 FEATURE_GROUPS = {
     "Data Management": ["KPI Overview", "Data Profiling", "Data Lineage", "Data Quality"],
-    "Tools & Control": ["Hierarchy Management", "Data Versioning", "Deduplication Tools", "Golden Record"],
+    "Tools & Control": ["Hierarchy Management", "Data Versioning", "Deduplication Tools", "Golden Record","Interactive Data Exploration"],
     "Reporting": ["Governance and Compliance","Workflow Visualization"],
 
     # Add more groups as needed...
@@ -196,6 +197,8 @@ def main():
         governance_compliance_reporting.governance_compliance_reporting()
     elif st.session_state.selected_feature == "Workflow Visualization":
         workflow_visualization.workflow_visualization()
+    elif st.session_state.selected_feature == "Interactive Data Exploration":
+        interactive_data_exploration.interactive_data_exploration()
     else:
         display_kpis()
 
