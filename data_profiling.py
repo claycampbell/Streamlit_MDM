@@ -6,7 +6,7 @@ import streamlit.components.v1 as components
 import warnings
 import matplotlib.cbook
 
-warnings.filterwarnings("ignore", category=matplotlib.cbook.mplDeprecation)
+warnings.filterwarnings("ignore", category=UserWarning)
 
 def display(st, data):
     st.header("Data Profiling")
