@@ -14,6 +14,7 @@ import workflow_visualization
 import interactive_data_exploration
 import ai_anomaly_detection
 import ai_rules
+import metadata_management
 # Load the generated datasets
 st.markdown(
     """
@@ -84,7 +85,8 @@ features = [
     "Role-based Access Control", 
     "Data Quality Scorecards",
     "Anomaly Detection",
-    "AI Rules"
+    "AI Rules",
+    "Metadata Management"
 ]
 feature_icons = {
     "KPI Overview": "📊",
@@ -106,13 +108,14 @@ feature_icons = {
     "Role-based Access Control": "🔒",
     "Data Quality Scorecards": "📜",
     "Anomaly Detection": "⚠️",
-    "AI Rules": "🔨"
+    "AI Rules": "🔨",
+    "Metadata Management": "📋",
 
 }
 
 # Grouped features for better organization
 FEATURE_GROUPS = {
-    "🗃️ Data Management": ["KPI Overview", "Data Profiling", "Data Lineage", "Data Quality"],
+    "🗃️ Data Management": ["KPI Overview", "Data Profiling", "Data Lineage", "Data Quality","Metadata Management"],
     "🛠️ Tools & Control": ["Hierarchy Management", "Data Versioning", "Deduplication Tools", "Golden Record","Interactive Data Exploration"],
     "📈 Reporting": ["Governance and Compliance","Workflow Visualization"],
     "🤖 AI": ["Anomaly Detection","AI Rules"],
@@ -243,6 +246,8 @@ def main():
         ai_anomaly_detection.display_data_quality(data)
     elif st.session_state.selected_feature == "AI Rules":
         ai_rules.display_rules_engine(data)
+    elif st.session_state.selected_feature == "Metadata Management":
+        metadata_management.display_metadata_management(data)
     else:
         display_kpis()
 
