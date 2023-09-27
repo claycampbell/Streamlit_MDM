@@ -12,6 +12,8 @@ import deduplication_tools
 import governance_compliance_reporting
 import workflow_visualization
 import interactive_data_exploration
+import ai_anomaly_detection
+import ai_rules
 # Load the generated datasets
 
 
@@ -60,7 +62,9 @@ features = [
     "Search and Discovery", 
     "Notifications and Alerts", 
     "Role-based Access Control", 
-    "Data Quality Scorecards"
+    "Data Quality Scorecards",
+    "Anomaly Detection",
+    "AI Rules"
 ]
 feature_icons = {
     "KPI Overview": "📊",
@@ -80,7 +84,10 @@ feature_icons = {
     "Search and Discovery": "🔎",
     "Notifications and Alerts": "🚨",
     "Role-based Access Control": "🔒",
-    "Data Quality Scorecards": "📜"
+    "Data Quality Scorecards": "📜",
+    "Anomaly Detection": "⚠️",
+    "AI Rules": "🔨"
+
 }
 
 # Grouped features for better organization
@@ -88,6 +95,7 @@ FEATURE_GROUPS = {
     "Data Management": ["KPI Overview", "Data Profiling", "Data Lineage", "Data Quality"],
     "Tools & Control": ["Hierarchy Management", "Data Versioning", "Deduplication Tools", "Golden Record","Interactive Data Exploration"],
     "Reporting": ["Governance and Compliance","Workflow Visualization"],
+    "AI": ["Anomaly Detection","AI Rules"],
 
     # Add more groups as needed...
 }
@@ -199,6 +207,10 @@ def main():
         workflow_visualization.workflow_visualization()
     elif st.session_state.selected_feature == "Interactive Data Exploration":
         interactive_data_exploration.interactive_data_exploration()
+    elif st.session_state.selected_feature == "Anomaly Detection":
+        ai_anomaly_detection.display_data_quality(data)
+    elif st.session_state.selected_feature == "AI Rules":
+        ai_rules.display_rules_engine(data)
     else:
         display_kpis()
 
