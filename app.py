@@ -21,6 +21,7 @@ st.markdown(
     .appview-container .main .block-container{
         max-width: 1200px;
         padding: 0rem;
+        padding-top: 3rem;
         
     }
     .appview-container .main {
@@ -28,7 +29,7 @@ st.markdown(
         background-color: #FFFFFF;  # This sets the background color to white
     }
     .stApp{
-    background-color: #F2f2f2;  # This sets the background color to white
+    background-color: #fcfcfc;  # This sets the background color to white
     }
     .stHeader{
     background-color: #F2f2f2;  # This sets the background color to white
