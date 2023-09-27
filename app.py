@@ -15,7 +15,28 @@ import interactive_data_exploration
 import ai_anomaly_detection
 import ai_rules
 # Load the generated datasets
-
+st.markdown(
+    """
+<style>
+    .appview-container .main .block-container{
+        max-width: 1200px;
+        padding: 0rem;
+        
+    }
+    .appview-container .main {
+        color: #111111;  # This sets the text color
+        background-color: #FFFFFF;  # This sets the background color to white
+    }
+    .stApp{
+    background-color: #F2f2f2;  # This sets the background color to white
+    }
+    .stHeader{
+    background-color: #F2f2f2;  # This sets the background color to white
+    }
+</style>
+""",
+    unsafe_allow_html=True,
+)
 
 @st.cache_data  # 👈 Use the caching decorator
 def load_data():
@@ -92,10 +113,10 @@ feature_icons = {
 
 # Grouped features for better organization
 FEATURE_GROUPS = {
-    "Data Management": ["KPI Overview", "Data Profiling", "Data Lineage", "Data Quality"],
-    "Tools & Control": ["Hierarchy Management", "Data Versioning", "Deduplication Tools", "Golden Record","Interactive Data Exploration"],
-    "Reporting": ["Governance and Compliance","Workflow Visualization"],
-    "AI": ["Anomaly Detection","AI Rules"],
+    "🗃️ Data Management": ["KPI Overview", "Data Profiling", "Data Lineage", "Data Quality"],
+    "🛠️ Tools & Control": ["Hierarchy Management", "Data Versioning", "Deduplication Tools", "Golden Record","Interactive Data Exploration"],
+    "📈 Reporting": ["Governance and Compliance","Workflow Visualization"],
+    "🤖 AI": ["Anomaly Detection","AI Rules"],
 
     # Add more groups as needed...
 }
@@ -111,69 +132,81 @@ def display_feature_buttons():
         with col:
             st.markdown(f"## {group}")
 
-            num_columns = 3
+            # Adjusting number of columns based on the number of features in the group
+            if len(group_features) <= 3:
+                num_columns = 3
+            else:
+                num_columns = 4  # or even 5 if you want more columns
+
             feature_columns = st.columns(num_columns)
 
             for feature_index, feature in enumerate(group_features):
                 feature_col = feature_columns[feature_index % num_columns]
                 icon = feature_icons.get(feature, "")
-                if feature_col.button(f"{icon} {feature}"):
+                # Adjusting the button text for some of the longer labels
+                adjusted_feature_name = feature.replace("Deduplication Tools", "Deduplication")\
+                                               .replace("Governance and Compliance", "Governance & Compliance")\
+                                               .replace("Interactive Data Exploration", "Data Exploration")\
+                                               .replace("Notifications and Alerts", "Notifications")
+                
+                if feature_col.button(f"{icon} {adjusted_feature_name}"):
                     selected_feature = feature
 
     return selected_feature
+
 
 def display_kpis():
     st.header("Key Performance Indicators")
 
     # Data Overview KPI
     st.subheader("Data Volume Overview")
+    cols1 = st.columns(2)
     latest_data = data["Data Overview"].tail(10)
     fig = px.line(latest_data, x="Date", y=companies, title="Recent Data Volume Trend")
-    st.plotly_chart(fig)
+    cols1[0].plotly_chart(fig)
 
     # Data Completeness KPI
-    st.subheader("Data Completeness")
     missing_data = data["Data Completeness"].isna().sum()
     fig = px.bar(missing_data, title="Missing Data Points by Company")
-    st.plotly_chart(fig)
+    cols1[1].plotly_chart(fig)
 
     # Data Accuracy KPI
     st.subheader("Data Accuracy")
+    cols2 = st.columns(2)
     corrections = data["Data Accuracy"]["Company"].value_counts()
     fig = px.bar(corrections, title="Number of Corrections by Company", orientation='h')
-    st.plotly_chart(fig)
+    cols2[0].plotly_chart(fig)
 
     # Rule Management KPI
-    st.subheader("Rule Management")
     rule_counts = data["Rule Management"]["Rule"].value_counts()
     fig = px.pie(names=rule_counts.index, values=rule_counts.values, title="Distribution of Rule Triggers")
-    st.plotly_chart(fig)
+    cols2[1].plotly_chart(fig)
 
     # AI Insights KPI
     st.subheader("AI Insights Trend")
+    cols3 = st.columns(2)
     latest_predictions = data["AI Insights"].tail(10)
     fig = px.line(latest_predictions, x="Date", y=["TechCorp_Predicted", "HealthInc_Predicted"])
-    st.plotly_chart(fig)
+    cols3[0].plotly_chart(fig)
 
     # User Feedback KPI
-    st.subheader("User Feedback Distribution")
     feedback_counts = data["User Feedback"]["User"].value_counts()
     fig = px.histogram(x=feedback_counts.values, labels={'x': 'Users', 'y': 'Feedback Count'})
-    st.plotly_chart(fig)
+    cols3[1].plotly_chart(fig)
 
     # Notifications & Alerts KPI
     st.subheader("Notifications & Alerts")
+    cols4 = st.columns(2)
     alert_counts = data["Notifications"]["Alert_Type"].value_counts()
     fig = px.pie(names=alert_counts.index, values=alert_counts.values, title="Alert Types Distribution")
-    st.plotly_chart(fig)
+    cols4[0].plotly_chart(fig)
 
     # Audit & History KPI
-    st.subheader("Audit & History")
     changes_made = len(data["Audit History"])
-    st.metric(label="Changes Logged", value=changes_made)
+    cols4[1].metric(label="Changes Logged", value=changes_made)
 
 def main():
-    st.title("📊 MDM Control Center")
+    st.title("🏕 Trailblaze MDM Control Center")
     
     data = load_data()
 
