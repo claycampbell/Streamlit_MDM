@@ -19,21 +19,19 @@ st.markdown(
     """
 <style>
     .appview-container .main .block-container{
-        max-width: 1200px;
-        padding: 0rem;
-        padding-top: 3rem;
+        max-width: 1200px !important;
+        padding-top: 3rem !important;
         
     }
-    .appview-container .main {
-        color: #111111;  # This sets the text color
-        background-color: #FFFFFF;  # This sets the background color to white
-    }
+   
     .stApp{
-    background-color: #fcfcfc;  # This sets the background color to white
+    background-color: #fcfcfc !important;  # This sets the background color to white
     }
-    .stHeader{
-    background-color: #F2f2f2;  # This sets the background color to white
-    }
+    @media (prefers-color-scheme: dark) {
+    .appview-container .main {
+        color: #FFFFFF; /* Adjust as needed */
+        background-color: #111111; /* Adjust as needed */
+        }
 </style>
 """,
     unsafe_allow_html=True,
