@@ -2,6 +2,8 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import numpy as np
+import datetime
 import data_profiling
 import data_lineage
 import data_quality
@@ -15,6 +17,7 @@ import interactive_data_exploration
 import ai_anomaly_detection
 import ai_rules
 import metadata_management
+import reference_data_management
 # Load the generated datasets
 st.markdown(
     """
@@ -86,7 +89,8 @@ features = [
     "Data Quality Scorecards",
     "Anomaly Detection",
     "AI Rules",
-    "Metadata Management"
+    "Metadata Management",
+    "Reference Data Management"
 ]
 feature_icons = {
     "KPI Overview": "📊",
@@ -110,12 +114,13 @@ feature_icons = {
     "Anomaly Detection": "⚠️",
     "AI Rules": "🔨",
     "Metadata Management": "📋",
+    "Reference Data Management":"📋"
 
 }
 
 # Grouped features for better organization
 FEATURE_GROUPS = {
-    "🗃️ Data Management": ["KPI Overview", "Data Profiling", "Data Lineage", "Data Quality","Metadata Management"],
+    "🗃️ Data Management": ["KPI Overview", "Data Profiling", "Data Lineage", "Data Quality","Metadata Management","Reference Data Management"],
     "🛠️ Tools & Control": ["Hierarchy Management", "Data Versioning", "Deduplication Tools", "Golden Record","Interactive Data Exploration"],
     "📈 Reporting": ["Governance and Compliance","Workflow Visualization"],
     "🤖 AI": ["Anomaly Detection","AI Rules"],
@@ -158,6 +163,70 @@ def display_feature_buttons():
 
 
 def display_kpis():
+    dates = pd.date_range(datetime.date.today() - datetime.timedelta(days=9), periods=10)
+    companies = ["TechCorp", "HealthInc", "EduGroup", "FinServe"]
+
+    # Data Volume Overview
+    data_overview = pd.DataFrame({
+        'Date': dates,
+        'TechCorp': np.random.randint(8000, 10000, 10),
+        'HealthInc': np.random.randint(6000, 8000, 10),
+        'EduGroup': np.random.randint(4000, 6000, 10),
+        'FinServe': np.random.randint(2000, 4000, 10)
+    })
+
+    # Data Completeness
+    data_completeness = pd.DataFrame({
+        'Company': companies,
+        'Missing_Data': np.random.randint(50, 200, 4)
+    })
+
+    # Data Accuracy
+    data_accuracy = pd.DataFrame({
+        'Company': np.random.choice(companies, 100),
+        'Correction_Type': np.random.choice(["Type A", "Type B", "Type C"], 100)
+    })
+
+    # Rule Management
+    rule_management = pd.DataFrame({
+        'Rule': np.random.choice(["Rule 1", "Rule 2", "Rule 3"], 100)
+    })
+
+    # AI Insights
+    ai_insights = pd.DataFrame({
+        'Date': dates,
+        'TechCorp_Predicted': np.random.randint(8000, 10000, 10),
+        'HealthInc_Predicted': np.random.randint(6000, 8000, 10)
+    })
+
+    # User Feedback
+    user_feedback = pd.DataFrame({
+        'User': np.random.choice(["User A", "User B", "User C"], 100),
+        'Feedback_Type': np.random.choice(["Positive", "Neutral", "Negative"], 100)
+    })
+
+    # Notifications
+    notifications = pd.DataFrame({
+        'Alert_Type': np.random.choice(["Critical", "Warning", "Info"], 100)
+    })
+
+    # Audit & History
+    audit_history = pd.DataFrame({
+        'Change_Type': np.random.choice(["Addition", "Deletion", "Modification"], 100),
+        'Timestamp': pd.date_range(datetime.date.today() - datetime.timedelta(days=99), periods=100)
+    })
+
+    # Combining all mock data into a dictionary
+    data = {
+        "Data Overview": data_overview,
+        "Data Completeness": data_completeness,
+        "Data Accuracy": data_accuracy,
+        "Rule Management": rule_management,
+        "AI Insights": ai_insights,
+        "User Feedback": user_feedback,
+        "Notifications": notifications,
+        "Audit History": audit_history
+    }
     st.header("Key Performance Indicators")
 
     # Data Overview KPI
@@ -168,9 +237,14 @@ def display_kpis():
     cols1[0].plotly_chart(fig)
 
     # Data Completeness KPI
-    missing_data = data["Data Completeness"].isna().sum()
-    fig = px.bar(missing_data, title="Missing Data Points by Company")
+    # Data Completeness KPI
+    st.subheader("Data Completeness")
+   
+
+    # Visualize the missing data directly from the data_completeness DataFrame
+    fig = px.bar(data_completeness, x="Company", y="Missing_Data", title="Missing Data Points by Company")
     cols1[1].plotly_chart(fig)
+
 
     # Data Accuracy KPI
     st.subheader("Data Accuracy")
@@ -248,6 +322,9 @@ def main():
         ai_rules.display_rules_engine(data)
     elif st.session_state.selected_feature == "Metadata Management":
         metadata_management.display_metadata_management(data)
+    elif st.session_state.selected_feature == "Reference Data Management":
+        reference_data_management.display_reference_data_management()
+        
     else:
         display_kpis()
 
