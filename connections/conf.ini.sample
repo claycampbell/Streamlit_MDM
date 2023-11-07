@@ -1,0 +1,9 @@
+[snowflake_host]
+userid = 
+password = 
+role =
+account = 
+warehouse = CHIPMUNK_WH
+database = MDM_TEST_DATA
+schema = CONTRACT_GOLDEN_RECORD
+

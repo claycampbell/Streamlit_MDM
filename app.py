@@ -1,8 +1,37 @@
-
 import streamlit as st
+from utilities.sf_operations import Snowflakeconnection
+
+# Create an instance of Snowflakeconnection
+connection_utility = Snowflakeconnection(profilename='snowflake_host')
+
+# Use the instance to establish a connection
+sfconnectionresults = connection_utility.get_snowflake_connection()
+
+# Now sfconnectionresults should have the 'connection' object, status code, and status message
+sfconnection = sfconnectionresults.get('connection')
+statuscode = sfconnectionresults.get('statuscode')
+statusmessage = sfconnectionresults.get('statusmessage')
+
+# Check if the Snowflake connection already exists in the session state
+if 'snowflake_ctx' not in st.session_state:
+    # Establish a new connection and store it in the session state
+    sfconnectionresults = connection_utility.get_snowflake_connection()
+    sfconnection = sfconnectionresults.get('connection')
+    st.session_state.snowflake_ctx = sfconnection
+
+    # Handle the status code and message
+    statuscode = sfconnectionresults.get('statuscode')
+    statusmessage = sfconnectionresults.get('statusmessage')
+    if statuscode != "Expected_success_code":  # Replace with your actual success code
+        st.error(f"Failed to establish Snowflake connection: {statusmessage}")
+    else:
+        st.success(f"Connected to Snowflake: {statusmessage}")
+
 import pandas as pd
 import plotly.express as px
 import numpy as np
+from constants import constants
+
 import datetime
 import data_profiling
 import data_lineage
@@ -18,6 +47,7 @@ import ai_anomaly_detection
 import ai_rules
 import metadata_management
 import reference_data_management
+
 # Load the generated datasets
 st.markdown(
     """
@@ -129,6 +159,9 @@ FEATURE_GROUPS = {
 }
 
 
+# Use the connection throughout the app
+# Example: pass it to another module that requires the connection
+# some_module.some_function(st.session_state.snowflake_ctx)
 def display_feature_buttons():
     selected_feature = None
 
