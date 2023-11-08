@@ -7,30 +7,14 @@ import warnings
 import matplotlib.cbook
 
 warnings.filterwarnings("ignore", category=UserWarning)
-def load_data_from_snowflake(ctx):
-    cur = ctx.cursor()
-    try:
-        # Execute a query
-        cur.execute("SELECT * FROM CLAUSES_CONTENT")
 
-        # Fetch the results
-        rows = cur.fetchall()
-
-        # Load into a DataFrame
-        df = pd.DataFrame(rows, columns=[x[0] for x in cur.description])
-
-    finally:
-        # Always close the cursor when you're done
-        cur.close()
-
-    # Return the DataFrame
-    return df
 def display(st, data):
     st.header("Data Profiling")
 
     # Dropdown to select dataset for profiling
-    ctx = st.session_state.snowflake_ctx
-    df = load_data_from_snowflake(ctx)
+    dataset_name = st.selectbox("Choose a dataset to profile", list(data.keys()))
+    df = data[dataset_name]
+
     # Generate the report
     report = ProfileReport(df)
     
