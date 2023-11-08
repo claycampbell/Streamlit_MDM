@@ -76,7 +76,7 @@ def display_data_quality(df):
     st.write("Most common contents:", content_counts.most_common(5))
 
     # Interactive Filters
-    search_query = st.text_input("Search for clauses or content")
+    search_query = st.text_input("Search for clauses", key="search_clauses")
     if search_query:
         filtered_data = df[(df['CLAUSE'].notnull() & df['CLAUSE'].str.contains(search_query)) |
                            (df['CONTENT'].notnull() & df['CONTENT'].str.contains(search_query))]
@@ -89,4 +89,3 @@ else:
     st.error("Snowflake connection not established.")
 
 data = load_data_from_snowflake(st.session_state.snowflake_ctx)
-display_data_quality(data)

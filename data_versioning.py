@@ -97,7 +97,7 @@ def data_versioning():
     # 11. Version Search
     with col1:
         st.subheader("Version Search")
-        st.text_input("Search for versions")
+        st.text_input("Search for versions",key="search_versions")
 
     # 12. Backups and Recovery
     with col2:
