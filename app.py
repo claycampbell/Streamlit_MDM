@@ -282,7 +282,7 @@ def display_kpis():
     cols4[1].metric(label="Changes Logged", value=changes_made)
 
 def main():
-    st.title("🏕 Trailblaze MDM Control Center")
+    st.title("🌦️ Rainfall MDM Control Center")
     
     data = load_data()
 
